@@ -10,12 +10,17 @@ path = os.environ.get('PROJECT_PATH', '.')
 
 
 def load_model():
+    """Функция загружает и возвращает последнюю созданную модель из папки PROJECT_PATH/data/model"""
+
     with open(f'{path}/data/models/{os.listdir(path+"/data/models")[-1]}', 'rb') as file:
         model = dill.load(file)
     return model
 
 
-def load_test_data():
+def load_test_data() -> pd.DataFrame:
+    """Функция считывает данные из фсех вайлов в папке PROJECT_PATH/data/test
+    и возвращает датафрейм со считанными данными"""
+
     data_test_path = path + '/data/test'
     files = os.listdir(data_test_path)
     tests_data = []
@@ -28,9 +33,12 @@ def load_test_data():
     return df
 
 
-def predict():
-    model = load_model()
-    df_test = load_test_data()
+def predict() -> None:
+    """Функция делает предсказание модели на всех загруженных данных и записывает
+    результат предсказания модели в файлы в папке PROJECT_PATH/data/predictions"""
+
+    model = load_model()                    #Загрузка модели
+    df_test = load_test_data()              #Загрузка данных для предсказания
     df_result = pd.DataFrame()
 
     predicted = model.predict(df_test)

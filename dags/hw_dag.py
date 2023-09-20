@@ -13,6 +13,7 @@ sys.path.insert(0, path)
 
 from modules.pipeline import pipeline
 from modules.predict import predict
+import pandas as pd
 
 args = {
     'owner': 'airflow',
